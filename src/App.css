@@ -40,6 +40,7 @@ header > p{
   width: 100%;
   min-height: 80px;
   justify-content: center;
+  text-align: center;
 }
 .game-status.won{
   background-color: #10b981;

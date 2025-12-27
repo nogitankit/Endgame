@@ -2,14 +2,14 @@ import clsx from "clsx"
 
 
 export default function Status({isGameOver, isGameLost, isGameWon, message, wrongGuesses, length}) {
-
+    console.log(wrongGuesses)
+    console.log(length)
    function renderGameStatus() {
-
         if (isGameWon) {
             return (
                 <>
                     <h2>You win!</h2>
-                    <p>You Escaped the horde.{wrongGuesses<length && ' The dog is safe!'}🎉</p>
+                    <p>You Escaped the horde.{wrongGuesses<length - 1 ?' The dog is safe!' : ''}🎉</p>
                 </>
             )
         }

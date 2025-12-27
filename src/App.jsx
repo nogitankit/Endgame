@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import Frame from './assets/Frame'
 import Keyboard from './assets/Keyboard'
@@ -13,11 +13,14 @@ function App() {
   const [currentWord, setCurrentWord] = React.useState(() => getRandomWord())
   const [guessedWord, setGuessedWord] = React.useState([])
   const [msg , setMsg] = React.useState("")
+   const [windowSize, setWindowSize] = React.useState({
+      width: window.innerWidth,
+      height: window.innerHeight
+    })
 
 
   const wrongGuessArray = guessedWord.filter(letter => !currentWord.includes(letter))
   const wrongGuesses = wrongGuessArray.length
-  console.log(wrongGuesses)
 
 
 //game finishers
@@ -54,13 +57,23 @@ function App() {
       )
     })
   }
-  console.log(msg)
 
   function newGame(){
     setCurrentWord(getRandomWord)
     setMsg("")
     setGuessedWord([])
   }
+
+  React.useEffect(()=>{
+    function handleResize() {
+      setWindowSize({
+        width : window.innerWidth,
+        height : window.innerHeight
+      })
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  },[])
 
   return (
     <main style={{display : 'flex', justifyContent : 'center', flexDirection : 'column', alignItems : 'center'}}>
@@ -69,6 +82,8 @@ function App() {
       <Confetti 
         recycle={false}
         numberOfPieces={1000}
+        width={windowSize.width}
+        height={windowSize.height}
       />
       }
       <header>
