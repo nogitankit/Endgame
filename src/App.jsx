@@ -4,11 +4,13 @@ import Frame from './assets/Frame'
 import Keyboard from './assets/Keyboard'
 import { languages } from './assets/languages'
 import Status from './assets/Status'
-import { getFarewellText } from './assets/utils'
+import { getFarewellText, getRandomWord } from './assets/utils'
+import clsx from 'clsx'
+import Confetti from 'react-confetti'
 
 function App() {
   //state values
-  const [currentWord, setCurrentWord] = React.useState("react")
+  const [currentWord, setCurrentWord] = React.useState(() => getRandomWord())
   const [guessedWord, setGuessedWord] = React.useState([])
   const [msg , setMsg] = React.useState("")
 
@@ -27,8 +29,12 @@ function App() {
 
   const letters = currentWord.split("").map((char, index) => {
     return (
-      <span className="letter" key={index}>
-        {guessedWord.includes(char) ? char : ''}
+      <span className={clsx(
+        'letter', {
+          'not-guessed' : isGameLost && !guessedWord.includes(char),
+        }
+      )} key={index}>
+        {guessedWord.includes(char) || isGameOver ? char : ''}
       </span>
     )
   })
@@ -50,8 +56,21 @@ function App() {
   }
   console.log(msg)
 
+  function newGame(){
+    setCurrentWord(getRandomWord)
+    setMsg("")
+    setGuessedWord([])
+  }
+
   return (
     <main style={{display : 'flex', justifyContent : 'center', flexDirection : 'column', alignItems : 'center'}}>
+      {
+      isGameWon && 
+      <Confetti 
+        recycle={false}
+        numberOfPieces={1000}
+      />
+      }
       <header>
         <h1>Assembly: Endgame</h1>
         <p>Guess the word in under 8 attempts to keep the programming world safe from assembly</p>
@@ -65,9 +84,9 @@ function App() {
       <section className='letters'>
         {letters}
       </section>
-     <Keyboard keyPressed={keyPressed} wrongGuess={wrongGuess} guessed={guessedWord} current ={currentWord}/>
+     <Keyboard keyPressed={keyPressed} wrongGuess={wrongGuess} guessed={guessedWord} current ={currentWord} isGameOver={isGameOver}/>
      { isGameOver &&
-      <button className='new-game'>New Game</button>}
+      <button className='new-game' onClick={newGame} >New Game</button>}
      
       
     </main>

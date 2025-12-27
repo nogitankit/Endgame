@@ -21,7 +21,7 @@ export default function Keyboard(props){
                 props.wrongGuess();
         }
         }
-        disabled={isGuessed}
+        disabled={isGuessed || props.isGameOver}
         >{letter.toUpperCase()}</button>
     )
     })

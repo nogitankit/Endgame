@@ -36,7 +36,7 @@ header > p{
   justify-content: center;
 }
 .game-status.won{
-  background-color: rgba(16, 169, 91, 1);
+  background-color: rgb(17, 200, 105);
 }
 .game-status.lost{
   background-color: rgba(186, 42, 42, 1);
@@ -118,7 +118,10 @@ header > p{
   font-weight: bold;
   font-size: 18px;
   user-select: none;
-} 
+}
+.letter.not-guessed{
+  color: rgba(236, 93, 73, 1);
+}
 .keyboard{
   margin-top: 50px;
   display: flex;
